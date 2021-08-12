@@ -1,20 +1,25 @@
 import Sudoku from './sudoku';
 
-export default class Supervisor{
+export default class Supervisor {
     queue: Sudoku[];
-    constructor(board: number[]){
-        this.queue = [new Sudoku(board,0)];
+    constructor(board: number[]) {
+        this.queue = [new Sudoku(board, 0)];
     }
-    solve(){
+    solve() {
         let solution = null;
-        while(this.queue.length > 0){
+        while (this.queue.length > 0) {
             const working = this.queue.shift();
-            if(working.solve()){
+
+            //skip if invalid
+            if (!working.isValid()) continue;
+
+            //solve is valid
+            if (working.solve()) {
                 solution = working;
                 break;
-            }else{
+            } else {
                 this.queue = this.queue.concat(working.fork());
-            }           
+            }
         }
         return solution;
     }

@@ -31,7 +31,8 @@ export default class Sudoku{
         // get the difference bewteen usedPoss and [1,2,3,4,5,6,7,8,9]
         return [1,2,3,4,5,6,7,8,9].filter(n=>!usedPoss.includes(n))
     }
-    makePass():number{
+
+    private makePass():number{
         let changes = 0;
 
         //for every cell that is empty, get possibilities
@@ -94,6 +95,20 @@ export default class Sudoku{
         }
 
         return clones
+    }
+
+    isValid():boolean{
+        //make a single pass
+        this.makePass();
+
+        //check if there are empty cells without possibilities
+        for(let i =0;i<81;i++){
+            if(this.cells[i] === 0 && this.poss[i].length === 0){
+                return false;
+            }
+        }
+
+        return true
     }
 
     //used for debugging
