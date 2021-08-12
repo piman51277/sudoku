@@ -1,0 +1,20 @@
+{
+  "name": "sudoku",
+  "version": "1.0.0",
+  "description": "A simple terminal app to solve sudoku puzzles",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piman51277/sudoku.git"
+  },
+  "keywords": [],
+  "author": "piman51277",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/piman51277/sudoku/issues"
+  },
+  "homepage": "https://github.com/piman51277/sudoku#readme",
+  "dependencies": {
+    "keypress": "^0.2.1"
+  }
+}
