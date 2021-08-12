@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"module": "commonjs",
+		"lib": [
+			"es2015"
+		],
+		"strict": false,
+		"declaration": true,
+		"outDir": "out",
+		"sourceMap": true,
+		"esModuleInterop": true,
+	},
+	"include": [
+		"src/"
+	],
+	"exclude": [
+		".github",
+		"node_modules",
+		"**/*.test.ts"
+	]
+}
