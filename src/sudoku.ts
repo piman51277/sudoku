@@ -1,4 +1,4 @@
-export class Sudoku{
+export default class Sudoku{
     cells: number[]
     poss: number[][]
     gen:number
@@ -23,9 +23,6 @@ export class Sudoku{
             ...this.cells.slice(boxRow*9+ boxCol+9, boxRow*9+boxCol+12),
             ...this.cells.slice(boxRow*9+ boxCol+18, boxRow*9+boxCol+21),
         ]
-    }
-    private getAffectedCells(row:number, col:number):number[]{
-        return [...new Set([...this.getRowIndex(row), ...this.getColIndex(col), ...this.getBoxIndex(row, col)])]
     }
     private getPossibilities(row:number, col:number):number[]{
         const indexes = [...new Set([...this.getRowIndex(row), ...this.getColIndex(col), ...this.getBoxIndex(row, col)])]
