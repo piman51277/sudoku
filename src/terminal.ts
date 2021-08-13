@@ -27,7 +27,7 @@ export default class Terminal extends EventEmitter {
     this.stream.on('keypress', (ch, key) => {
       if (key) {
         if (key.ctrl && key.name == 'c') process.exit(0);
-        if (key.name = "s") this.emit("solve",this.cells)
+        if (key.name == "s") this.emit("solve",this.cells)
 
         this.handleArrowInputs(key.code);
         this.print();
@@ -67,7 +67,7 @@ export default class Terminal extends EventEmitter {
   //we have to separate these, as non-special arrow keys cause extra keypress events
   private handleKeyPress(key: string) {
     //if key is a string between 1-9, set the cell at this.cursor[0] * 9 + this.cursor[1] to the value of key
-    if (key >= "1" && key <= "9") {
+    if (key >= "0" && key <= "9") {
       this.cells[this.cursor[0] * 9 + this.cursor[1]] = parseInt(key);
       this.print();
     }
