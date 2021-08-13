@@ -15,6 +15,7 @@
   },
   "homepage": "https://github.com/piman51277/sudoku#readme",
   "dependencies": {
+    "@types/node": "^16.6.0",
     "keypress": "^0.2.1"
   }
 }
