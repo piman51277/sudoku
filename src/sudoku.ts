@@ -4,7 +4,7 @@ export default class Sudoku {
     gen: number
 
     constructor(cells?: number[], gen?: number) {
-        this.cells = cells || new Array(81).fill(0)
+        this.cells = cells.slice() || new Array(81).fill(0)
         this.poss = new Array(81).fill([])
         this.gen = gen || 0
     }
@@ -112,6 +112,9 @@ export default class Sudoku {
                 return false;
             }
         }
+
+        //TODO maybe add a cell conflict check?
+        //above should not ever be needed if the user inputs a valid puzzle
 
         return true
     }

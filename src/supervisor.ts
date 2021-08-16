@@ -7,7 +7,7 @@ export default class Supervisor {
         this.queue = [new Sudoku(board, 0)];
     }
 
-    solve() {
+    solve():Sudoku|any {
         let solution = null;
         while (this.queue.length > 0) {
             const working = this.queue.shift();

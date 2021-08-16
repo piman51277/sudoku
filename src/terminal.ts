@@ -31,7 +31,7 @@ export default class Terminal extends EventEmitter {
       if (key) {
         if (key.ctrl && key.name == 'c') process.exit(0);
         if (this.enableInput && key.name == "s") this.emit("solve", this.cells);
-        
+
         this.handleArrowInputs(key.code);
         this.print();
 
@@ -42,7 +42,7 @@ export default class Terminal extends EventEmitter {
     });
   }
 
-  print() {
+  print(): void {
     this.clear();
 
     //print out the grid
@@ -52,37 +52,42 @@ export default class Terminal extends EventEmitter {
       output += new Array(27).fill("█").join("") + "\n";
     }
 
+
     //convert string into array
     const outputArr = output.split("");
+    
+    //only display cursor if this.enableInput is false
+    if (!this.enableInput) {
+      //compute index position of cursor
+      const realCursorX = this.cursor[1] * 3 + 1;
+      const realCursorY = this.cursor[0] * 2 + 1;
 
-    //compute index position of cursor
-    const realCursorX = this.cursor[1] * 3 + 1;
-    const realCursorY = this.cursor[0] * 2 + 1;
+      const cursorPos = realCursorY * 28 + realCursorX;
 
-    const cursorPos = realCursorY * 28 + realCursorX;
+      outputArr[cursorPos] = "*";
 
-    outputArr[cursorPos] = "*";
+    }
     output = outputArr.join("");
 
     this.stream.write(output)
   }
-  clear() {
+  clear(): void {
     //move the cursor to the top of the screen
     readline.cursorTo(this.stream, 0, 0);
     readline.clearScreenDown(this.stream);
   }
-  disableInput() {
+  disableInput(): void {
     this.enableInput = false;
   }
   //we have to separate these, as non-special arrow keys cause extra keypress events
-  private handleKeyPress(key: string) {
+  private handleKeyPress(key: string): void {
     //if key is a string between 1-9, set the cell at this.cursor[0] * 9 + this.cursor[1] to the value of key
     if (key >= "0" && key <= "9") {
       this.cells[this.cursor[0] * 9 + this.cursor[1]] = parseInt(key);
       this.print();
     }
   }
-  private handleArrowInputs(key: string) {
+  private handleArrowInputs(key: string): void {
     switch (key) {
       case '[C':
         this.cursor[1]++
