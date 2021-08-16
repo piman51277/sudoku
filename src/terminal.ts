@@ -30,12 +30,11 @@ export default class Terminal extends EventEmitter {
       this.emit("keypress")
       if (key) {
         if (key.ctrl && key.name == 'c') process.exit(0);
+        if (this.enableInput && key.name == "s") this.emit("solve", this.cells);
+        
+        this.handleArrowInputs(key.code);
+        this.print();
 
-        if (this.enableInput) {
-          if (key.name == "s") this.emit("solve", this.cells)
-          this.handleArrowInputs(key.code);
-          this.print();
-        }
       } else if (this.enableInput) {
         this.handleKeyPress(ch);
       }
@@ -74,7 +73,6 @@ export default class Terminal extends EventEmitter {
   }
   disableInput() {
     this.enableInput = false;
-    this.cursor = [-1, -1]
   }
   //we have to separate these, as non-special arrow keys cause extra keypress events
   private handleKeyPress(key: string) {
