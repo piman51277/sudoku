@@ -12,11 +12,13 @@ export default class Terminal extends EventEmitter {
   stream: any
   cells: number[]
   cursor: [number, number]
+  enableInput: boolean
   constructor(stream?: Duplex) {
     super()
     this.stream = stream || process.stdin
     this.cells = new Array(81).fill(0)
     this.cursor = [0, 0];
+    this.enableInput = true;
 
     //init this.sream
     keypress(this.stream);
@@ -25,23 +27,24 @@ export default class Terminal extends EventEmitter {
 
     //listen for keyboard input
     this.stream.on('keypress', (ch, key) => {
+      this.emit("keypress")
       if (key) {
         if (key.ctrl && key.name == 'c') process.exit(0);
-        if (key.name == "s") this.emit("solve",this.cells)
 
-        this.handleArrowInputs(key.code);
-        this.print();
-      }else{
+        if (this.enableInput) {
+          if (key.name == "s") this.emit("solve", this.cells)
+          this.handleArrowInputs(key.code);
+          this.print();
+        }
+      } else if (this.enableInput) {
         this.handleKeyPress(ch);
       }
+
     });
   }
 
   print() {
-    //move the cursor to the top fo the screen
-    readline.cursorTo(this.stream, 0, 0);
-
-    readline.clearScreenDown(this.stream);
+    this.clear();
 
     //print out the grid
     let output = new Array(27).fill("█").join("") + "\n";
@@ -63,6 +66,15 @@ export default class Terminal extends EventEmitter {
     output = outputArr.join("");
 
     this.stream.write(output)
+  }
+  clear() {
+    //move the cursor to the top of the screen
+    readline.cursorTo(this.stream, 0, 0);
+    readline.clearScreenDown(this.stream);
+  }
+  disableInput() {
+    this.enableInput = false;
+    this.cursor = [-1, -1]
   }
   //we have to separate these, as non-special arrow keys cause extra keypress events
   private handleKeyPress(key: string) {
