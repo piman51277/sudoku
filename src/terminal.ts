@@ -55,9 +55,9 @@ export default class Terminal extends EventEmitter {
 
     //convert string into array
     const outputArr = output.split("");
-    
-    //only display cursor if this.enableInput is false
-    if (!this.enableInput) {
+
+    //only display cursor if this.enableInput is on
+    if (this.enableInput) {
       //compute index position of cursor
       const realCursorX = this.cursor[1] * 3 + 1;
       const realCursorY = this.cursor[0] * 2 + 1;
