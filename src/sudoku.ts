@@ -2,23 +2,23 @@ export default class Sudoku {
     cells: number[]
     poss: number[][]
     gen: number
-    
+
     constructor(cells?: number[], gen?: number) {
         this.cells = cells || new Array(81).fill(0)
         this.poss = new Array(81).fill([])
         this.gen = gen || 0
     }
 
-    private getRowIndex(row: number): number[] {
+    private getRow(row: number): number[] {
         const offset = row * 9
         return this.cells.slice(offset, offset + 9)
     }
 
-    private getColIndex(col: number): number[] {
-        return new Array(9).fill(col).map((n, i) => n + i * 9)
+    private getCol(col: number): number[] {
+        return new Array(9).fill(col).map((n, i) => n + i * 9).map(n => this.cells[n])
     }
 
-    private getBoxIndex(row: number, col: number): number[] {
+    private getBox(row: number, col: number): number[] {
         const boxRow = Math.floor(row / 3) * 3;
         const boxCol = Math.floor(col / 3) * 3;
         //slice three times to get the needed cells
@@ -30,8 +30,8 @@ export default class Sudoku {
     }
 
     private getPossibilities(row: number, col: number): number[] {
-        const indexes = [...new Set([...this.getRowIndex(row), ...this.getColIndex(col), ...this.getBoxIndex(row, col)])]
-        const usedPoss = [...new Set(indexes.map(n => this.cells[n]))]
+        const usedPoss = [...new Set([...this.getRow(row), ...this.getCol(col), ...this.getBox(row, col)])]
+
 
         // get the difference bewteen usedPoss and [1,2,3,4,5,6,7,8,9]
         return [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(n => !usedPoss.includes(n))
