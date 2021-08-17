@@ -79,7 +79,7 @@ export default class Sudoku {
         let minPoss = 9;
         let minIndex = -1;
         for (let i = 0; i < 81; i++) {
-            if (this.poss[i].length < minPoss && this.poss[i].length > 0) {
+            if (this.poss[i].length < minPoss && this.poss[i].length > 1) {
                 minPoss = this.poss[i].length
                 minIndex = i
                 // 2 is minimum possibilities
@@ -89,6 +89,11 @@ export default class Sudoku {
             }
         }
 
+        //if there are no cells with >=2 possibilities, return an empty array
+        if (minIndex == -1) {
+            return []
+        }
+        
         const targetPoss = this.poss[minIndex]
 
         //for every possibility, clone the sudoku and set the possibility
@@ -113,8 +118,6 @@ export default class Sudoku {
             }
         }
 
-        //TODO maybe add a cell conflict check?
-        //above should not ever be needed if the user inputs a valid puzzle
 
         return true
     }

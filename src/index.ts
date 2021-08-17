@@ -14,7 +14,6 @@ terminal.on("solve", (board) => {
     if (result != null) {
         terminal.cells = result.cells
         terminal.print();
-        console.log(`Computed in ${result.generations} generations`)
     } else {
         console.log("Stuck, cannot continue!\nMake sure the puzzle was entered correctly!")
     }
