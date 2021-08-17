@@ -2,7 +2,7 @@
   "name": "sudoku",
   "version": "1.0.0",
   "description": "A simple terminal app to solve sudoku puzzles",
-  "main": "index.js",
+  "main": "src/index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/piman51277/sudoku.git"

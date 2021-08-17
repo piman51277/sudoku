@@ -9,41 +9,25 @@ export default class Sudoku {
         this.gen = gen || 0
     }
 
-    private getRow(row: number): number[] {
-        const offset = row * 9
-        return this.cells.slice(offset, offset + 9)
-    }
-
-    private getCol(col: number): number[] {
-        return new Array(9).fill(col).map((n, i) => n + i * 9).map(n => this.cells[n])
-    }
-
-    private getBox(row: number, col: number): number[] {
-        const boxRow = Math.floor(row / 3) * 3;
-        const boxCol = Math.floor(col / 3) * 3;
-        //slice three times to get the needed cells
-        return [
-            ...this.cells.slice(boxRow * 9 + boxCol, boxRow * 9 + boxCol + 3),
-            ...this.cells.slice(boxRow * 9 + boxCol + 9, boxRow * 9 + boxCol + 12),
-            ...this.cells.slice(boxRow * 9 + boxCol + 18, boxRow * 9 + boxCol + 21),
-        ]
-    }
-
-    private getPossibilities(row: number, col: number): number[] {
-        const usedPoss = [...new Set([...this.getRow(row), ...this.getCol(col), ...this.getBox(row, col)])]
-
-
-        // get the difference bewteen usedPoss and [1,2,3,4,5,6,7,8,9]
-        return [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(n => !usedPoss.includes(n))
-    }
-
     private makePass(): number {
         let changes = 0;
 
         //for every cell that is empty, get possibilities
         for (let i = 0; i < 81; i++) {
             if (this.cells[i] === 0) {
-                this.poss[i] = this.getPossibilities(Math.floor(i / 9), i % 9)
+                const row = Math.floor(i / 9), col = i % 9;
+                const offset = row * 9
+                const boxRow = Math.floor(row / 3) * 3;
+                const boxCol = Math.floor(col / 3) * 3;
+                const usedPoss = [...new Set([
+                    ...this.cells.slice(offset, offset + 9),
+                    ...new Array(9).fill(col).map((n, i) => n + i * 9).map(n => this.cells[n]),
+                    ...this.cells.slice(boxRow * 9 + boxCol, boxRow * 9 + boxCol + 3),
+                    ...this.cells.slice(boxRow * 9 + boxCol + 9, boxRow * 9 + boxCol + 12),
+                    ...this.cells.slice(boxRow * 9 + boxCol + 18, boxRow * 9 + boxCol + 21),
+                ])]
+
+                this.poss[i] = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(n => !usedPoss.includes(n))
 
                 //if there is only one possibility, set it
                 if (this.poss[i].length === 1) {
@@ -93,7 +77,7 @@ export default class Sudoku {
         if (minIndex == -1) {
             return []
         }
-        
+
         const targetPoss = this.poss[minIndex]
 
         //for every possibility, clone the sudoku and set the possibility
