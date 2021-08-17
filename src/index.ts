@@ -17,4 +17,5 @@ terminal.on("solve", (board) => {
     } else {
         console.log("Stuck, cannot continue!\nMake sure the puzzle was entered correctly!")
     }
+    process.exit(0)
 })
