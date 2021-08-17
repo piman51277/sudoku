@@ -6,6 +6,7 @@ terminal.print();
 let supervisor;
 
 terminal.on("solve", (board) => {
+    console.time("solve")
     supervisor = new Supervisor(board);
     const result = supervisor.solve();
     terminal.disableInput();
@@ -17,5 +18,6 @@ terminal.on("solve", (board) => {
     } else {
         console.log("Stuck, cannot continue!\nMake sure the puzzle was entered correctly!")
     }
+    console.timeEnd("solve")
     process.exit(0)
 })
