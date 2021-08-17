@@ -105,10 +105,4 @@ export default class Sudoku {
 
         return true
     }
-
-    //used for debugging
-    toString(): string {
-        //create a 9x9 grid from the cells
-        return new Array(9).fill('').map((n, i) => new Array(9).fill('').map((n, j) => this.cells[i * 9 + j]).join(' ')).join('\n')
-    }
 }
