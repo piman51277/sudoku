@@ -17,14 +17,13 @@ export default class Sudoku {
             if (this.cells[i] === 0) {
                 const row = Math.floor(i / 9), col = i % 9;
                 const offset = row * 9
-                const boxRow = Math.floor(row / 3) * 3;
-                const boxCol = Math.floor(col / 3) * 3;
+                const base = Math.floor(row / 3) * 27 + Math.floor(col / 3) * 3
                 const usedPoss = [...new Set([
                     ...this.cells.slice(offset, offset + 9),
-                    ...new Array(9).fill(col).map((n, i) => n + i * 9).map(n => this.cells[n]),
-                    ...this.cells.slice(boxRow * 9 + boxCol, boxRow * 9 + boxCol + 3),
-                    ...this.cells.slice(boxRow * 9 + boxCol + 9, boxRow * 9 + boxCol + 12),
-                    ...this.cells.slice(boxRow * 9 + boxCol + 18, boxRow * 9 + boxCol + 21),
+                    ...new Array(9).fill(col).map((n, i) => this.cells[n + i * 9]),
+                    ...this.cells.slice(base, base + 3),
+                    ...this.cells.slice(base + 9, base + 12),
+                    ...this.cells.slice(base + 18, base + 21),
                 ])]
 
                 this.poss[i] = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(n => !usedPoss.includes(n))
@@ -32,7 +31,6 @@ export default class Sudoku {
                 //if there is only one possibility, set it
                 if (this.poss[i].length === 1) {
                     this.cells[i] = this.poss[i][0]
-
                     changes++;
                 }
             }
