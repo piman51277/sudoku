@@ -15,9 +15,8 @@ terminal.on("solve", (board) => {
     if (result != null) {
         terminal.cells = result.cells
         terminal.print();
+        console.timeEnd("solve")
     } else {
         console.log("Stuck, cannot continue!\nMake sure the puzzle was entered correctly!")
     }
-    console.timeEnd("solve")
-    process.exit(0)
 })

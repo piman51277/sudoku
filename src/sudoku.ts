@@ -15,17 +15,19 @@ export default class Sudoku {
         //for every cell that is empty, get possibilities
         for (let i = 0; i < 81; i++) {
             if (this.cells[i] === 0) {
+                //get occupied row, block, col cells
                 const row = Math.floor(i / 9), col = i % 9;
                 const offset = row * 9
                 const base = Math.floor(row / 3) * 27 + Math.floor(col / 3) * 3
                 const usedPoss = [...new Set([
-                    ...this.cells.slice(offset, offset + 9),
-                    ...new Array(9).fill(col).map((n, i) => this.cells[n + i * 9]),
-                    ...this.cells.slice(base, base + 3),
+                    ...this.cells.slice(offset, offset + 9), //row
+                    ...new Array(9).fill(col).map((n, i) => this.cells[n + i * 9]), //col
+                    ...this.cells.slice(base, base + 3), //block
                     ...this.cells.slice(base + 9, base + 12),
                     ...this.cells.slice(base + 18, base + 21),
                 ])]
 
+                //get unused possibilities
                 this.poss[i] = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(n => !usedPoss.includes(n))
 
                 //if there is only one possibility, set it
